@@ -1,0 +1,12 @@
+デザイン変更の確認を開発サーバ起動でチェック
+puma -p 3000
+http://49.212.155.49:3000/  で動作確認。
+開発サーバの停止
+ctrl+cで 3000ポートのpumaサーバを停止。
+本番サーバに静的ファイルの書き出し
+RAILS_ENV=production bundle exec rake assets:precompile
+nginxサーバの再起動
+sudo service nginx restart
+本番サーバの起動
+RAILS_SERVER_STATIC_FILES=true RAILS_ENV=production bundle exec puma -w 4 -p 9294 -d
+RAILS_SERVER_STATIC_FILES=true RAILS_ENV=production bundle exec puma -p 9294 -d

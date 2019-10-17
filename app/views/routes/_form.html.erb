@@ -1,0 +1,70 @@
+<div class="row">
+<div class="well bs-component">
+<fieldset>
+<%= form_for(route, :html => {:name => :route, :class => "from-horizontal"}) do |f| %>
+  <% if route.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(route.errors.count, "error") %> prohibited this route from being saved:</h2>
+
+      <ul>
+      <% route.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="form-group">
+  <%= f.label :"場所", :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+  <%= f.text_field :place, :class => "form-control" %>
+  </div>
+  <%= f.label :"エリア", :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+  <%= f.text_field :area, :class => "form-control" %>
+  </div>
+</div>
+<div class="form-group">
+ <%= f.label :genre, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+ <%= f.select :genre, [['リード','リード'],['ボルダー','ボルダー']], {:include_blank => true}, {:class => "form-control"} %>
+ </div>
+ <%= f.label :route_name, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+ <%= f.text_field :route_name, :class => "form-control" %>
+ </div>
+</div>
+<div class="form-group">
+ <%= f.label :setter, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+ <%= f.text_field :setter, :class => "form-control" %>
+ </div>
+ <%= f.label :grade, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+ <%= f.text_field :grade, :class => "form-control" %>
+ </div>
+</div>
+<div class="form-group">
+ <%= f.label :new_date, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+ <%= f.date_field :new_date, :class => "form-control" %>
+ </div>
+ <%= f.label :end_date, :class => "col-lg-2 control-label" %>
+ <div class="col-lg-4">
+ <%= f.date_field :end_date, :class => "form-control" %>
+ </div>
+</div>
+<div class="form-group">
+ <%= f.label :remarks, :class => "col-lg-2 control-label" %>
+  <div class="col-lg-4">
+ <%= f.text_area :remarks, :size => "50", :class => "form-control" %>
+ </div>
+ </div>
+ <div class="actions">
+  <%= f.button("submit", :type => "submit", :class => "btn btn-primary") %>
+  </div>
+<% end %>
+      </fieldset>
+    </div>
+  </div>
+

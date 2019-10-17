@@ -1,0 +1,59 @@
+<p>
+  <%= link_to 'このルートを記録する', new_record_path(:route_id => @route.id) %>
+</p>
+
+<% if user_signed_in? %>
+<% @route.id %>
+<% current_user.id %>
+<% if Record.where(:user => current_user.id).where(:route_id => @route.id).count > 0 %>
+このルートの成果：<%= Record.where(:user => current_user.id).where(:route_id => @route.id).count %> 日目<br />
+<% Record.where(:user => current_user.id).where(:route_id => @route.id).each do |data| %>
+<%= data.seika %> | <%= data.climb_day %>
+<%= link_to "記録", "/records/" + data.id.to_s %><br />
+<% end %>
+<% else %>
+今まで登っていないか、記録し忘れかも知れません。
+<% end %>
+<% end %>
+
+<p>
+  <strong>Place Area:</strong>
+  <%= @route.place %> | <%= @route.area %>[<%= @route.genre %>]
+</p>
+
+<p>
+  <strong>Route name:</strong>
+  <%= @route.route_name %>
+</p>
+
+<% if @route.genre = "リード" %>
+<% else %>
+<p>
+  <strong>Grade:</strong>
+  <%= @route.grade %>
+</p>
+<% end %>
+
+<p>
+  <strong>New Date:</strong>
+  <%= @route.new_date %>
+</p>
+
+<p>
+  <strong>End Date:</strong>
+  <%= @route.end_date %>
+</p>
+
+<p>
+  <strong>Setter:</strong>
+  <%= @route.setter %>
+</p>
+
+<p>
+  <strong>Remarks:</strong>
+  <%= simple_format(@route.remarks) %>
+</p>
+
+<%= link_to 'Edit', edit_route_path(@route) %> |
+<%= link_to 'Destroy', @route, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', url_for(:back) %>

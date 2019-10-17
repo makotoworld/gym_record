@@ -1,0 +1,64 @@
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="well bs-component">
+              <fieldset>
+<%= form_for(record, :html => {:name => "record", :class => "form-horizontal"}) do |f| %>
+<% if record.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(record.errors.count, "error") %> prohibited this record from being saved:</h2>
+
+  <ul>
+  <% record.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="form-group">
+  <%= f.label :"場所 ルート名", {:class => "col-lg-3 control-label"} %>
+  <% if @route_id then %>
+  <div class="col-lg-6">
+  [<%= Route.find(@route_id).place %>] <%= Route.find(@route_id).area %> <%= Route.find(@route_id).route_name %> (<%= Route.find(@route_id).grade %>)
+  <%= f.hidden_field :route_id, :value => @route_id %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <% else %>
+  <div class="col-lg-6">
+  [<%= @record.route.place %>] <%= @record.route.area %> <%= @record.route.route_name %> (<%= @record.route.grade %>)
+  <% end %>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <%= f.label :"成果", {:class => "col-lg-3 control-label"} %>
+  <div class="col-lg-6">
+  <%= f.text_field :seika, :class => "form-control" %>
+  </div>
+  <span class="col-lg-8">
+  <a class="btn btn-primary btn-xs os" id="os">O.S.</a> <a class="btn btn-success btn-xs rp" id="rp">R.P.</a> <a class="btn btn-warning btn-xs to" id="to">TO</a> <a class="btn btn-danger btn-xs x" id="x">×</a>
+  </span>
+</div>
+
+<div class="form-group">
+  <%= f.label :"コメント", {:class => "col-lg-3 control-label"} %>
+  <div class="col-lg-6">
+  <%= f.text_area :content, :size => "50", :class => "form-control" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= f.label :"登った日", {:class => "col-lg-3 control-label"} %>
+  <div class="col-lg-6">
+  <%= f.date_field :climb_day, :class => "climb_day form-control" %>
+  </div>
+</div>
+
+<div class="actions">
+  <%= f.button("submit", :type => "submit", :class => "btn btn-primary") %>
+</div>
+<% end %>
+              </fieldset>
+            </div>
+          </div>
+        </div>

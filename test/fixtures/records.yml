@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  first_day: 2017-03-29 16:29:57
+  kanto_day: 2017-03-29 16:29:57
+  user_id: 1
+  route_id: 1
+  user: one
+  route: one
+
+two:
+  content: MyText
+  first_day: 2017-03-29 16:29:57
+  kanto_day: 2017-03-29 16:29:57
+  user_id: 1
+  route_id: 1
+  user: two
+  route: two

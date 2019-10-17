@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  place: MyString
+  area: MyString
+  genre: MyString
+  route_name: MyString
+  grade: MyString
+  pitchs: 1
+  remarks: MyText
+
+two:
+  place: MyString
+  area: MyString
+  genre: MyString
+  route_name: MyString
+  grade: MyString
+  pitchs: 1
+  remarks: MyText

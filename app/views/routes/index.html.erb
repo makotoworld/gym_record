@@ -1,0 +1,126 @@
+<div class="row">
+<div class="col-lg-12">
+<div class="page-header">
+<h1 id="tables">Route</h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="btn-group">
+      <a href="#" class="btn btn-default">Place</a>
+      <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <% Route.uniq.pluck(:place).each do |place| %>
+        <li><%= link_to place, routes_path + '?utf8=✓&q%5Bplace_eq%5D=' + place %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="btn-group">
+      <a href="#" class="btn btn-default">Area</a>
+      <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <% Route.uniq.pluck(:area).each do |area| %>
+        <li><%= link_to area, routes_path + '?utf8=✓&q%5Barea_eq%5D=' + area %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="page-header">
+    <%= paginate @routes, :count => @count %>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'New Route', new_route_path %>
+
+<div class="row">
+<div class="col-lg-12">
+<div class="bs-component">
+<table class="table table-striped table-hover">
+<thead>
+  <tr>
+    <th><%= sort_link(@q, :place) %> <%= sort_link(@q, :area) %></th>
+    <th class="hidden-xs"><%= sort_link(@q, :genre) %></th>
+    <th><%= sort_link(@q, :route_name) %></th>
+    <th class="hidden-xs"><%= sort_link(@q, :setter) %></th>
+    <th class="hidden-xs"><%= sort_link(@q, :grade) %></th>
+    <th class="hidden-xs"><%= sort_link(@q, :new_date) %></th>
+    <th colspan="2"></th>
+  </tr>
+</thead>
+<tbody>
+  <% @routes.each do |route| %>
+    <tr>
+      <td>[<%= route.place %>]<%= route.area %></td>
+      <td class="hidden-xs"><%= route.genre %></td>
+      <td><%= link_to route.route_name, route %></td>
+      <td class="hidden-xs"><%= route.setter %></td>
+      <td class="hidden-xs"><%= route.grade %></td>
+      <td class="hidden-xs"><%= route.new_date %></td>
+      <td><%= link_to '記録', new_record_path(:route_id => route.id) %></td>
+      <td class="hidden-xs"><%= link_to 'Edit', edit_route_path(route) %></td>
+      <td class="hidden-xs"><%= link_to 'Destroy', route, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+ <div class="well bs-component">
+  <%= search_form_for(@q, html:{:class => "form-horizontal"}) do |f| %>
+  <fieldset>
+  <legend>ルート検索</legend>
+  <div class="form-group">
+   <%= f.label :place_or_area_or_genre_or_route_name_or_first_ascent_or_remarks_cont, "全てのキーワード", :class => "col-lg-2 control-label" %>
+    <div class="col-lg-3">
+    <%= f.search_field :place_or_area_or_genre_or_route_name_or_first_ascent_or_remarks_cont, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+   <%= f.label :place_start, "場所", :class => "col-lg-2 control-label" %>
+    <div class="col-lg-3">
+    <%= f.select :place_eq, Route.uniq.pluck(:place), {:include_blank => true}, {:class => "form-control"} %>
+    </div>
+    <%= f.label :area_cont, "エリア", :class => "col-lg-2 control-label" %>
+    <div class="col-lg-3">
+    <%= f.search_field :area_cont, :class => "form-control" %>
+    </div>
+  </div>
+<div class="form-group">
+<%= f.label :genre_start, "種別", :class => "col-lg-2 control-label" %>
+<div class="col-lg-3">
+<%= f.search_field :genre_cont, :class => "form-control" %>
+</div>
+<%= f.label :route_name_eq, "ルート名", :class => "col-lg-2 control-label" %>
+<div class="col-lg-3">
+<%= f.search_field :route_name_cont, :class => "form-control" %>
+</div>
+</div>
+<div class="form-group">
+<%= f.label :grade_start, "グレード", :class => "col-lg-2 control-label" %>
+<div class="col-lg-3">
+<%= f.select :grade_eq, Route.uniq.pluck(:grade),{}, {:class => "form-control"} %>
+</div>
+<%= f.label :stargrade_eq, "★グレード", :class => "col-lg-2 control-label" %>
+<div class="col-lg-3">
+<%= f.select :stargrade_eq, Route.uniq.pluck(:stargrade),{}, {:class => "form-control"} %>
+</div>
+</div>
+<div class="form-group">
+<%= f.label :remarks_eq, "備考", :class => "col-lg-2 control-label" %>
+<div class="col-lg-3">
+<%= f.search_field :remarks_start, :class => "form-control" %>
+</div>
+</div>
+<%= f.button("検索", :type => "submit", :class => "btn btn-primary") %>
+<% end %>
+</div>
+</div>
+</div>
+

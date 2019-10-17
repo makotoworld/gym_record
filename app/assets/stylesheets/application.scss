@@ -1,0 +1,34 @@
+// Example using 'Cyborg' bootswatch
+// Example using 'Cerulean' bootswatch
+// Example using 'Cosmo' bootswatch
+// Example using 'Darkly' bootswatch
+// Example using 'Paper' bootswatch
+
+//Import bootstrap-sprockets
+@import "bootstrap-sprockets";
+
+// Import cerulean variables
+//@import "bootswatch/darkly/variables";
+//@import "bootswatch/paper/variables";
+@import "bootswatch/cyborg/variables";
+//@import "bootswatch/cosmo/variables";
+//@import "bootswatch/simplex/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// Bootstrap body padding for fixed navbar
+body { padding-top: 60px; }
+
+// And finally bootswatch style itself
+//@import "bootswatch/darkly/bootswatch";
+//@import "bootswatch/paper/bootswatch";
+@import "bootswatch/cyborg/bootswatch";
+//@import "bootswatch/cosmo/bootswatch";
+//@import "bootswatch/simplex/bootswatch";
+
+// Whatever application styles you have go last
+//@import "base";
+
+@import "bootstrap-datepicker";
+

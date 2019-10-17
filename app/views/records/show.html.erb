@@ -1,0 +1,28 @@
+<p>
+  <strong>User:</strong>
+  <%= link_to @record.user.username, "/user/" + @record.user.username %>
+</p>
+
+<p>
+  <strong>Route:</strong>
+  <%= link_to @record.route.route_name, @record.route %>(<%= link_to "記録する", new_record_path(:route_id => @record.route)  %>)
+</p>
+<p>
+  <strong>Seika:</strong>
+  <%= @record.seika %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= auto_link(simple_format(@record.content), :html => { :target => '_blank' }) %>
+</p>
+
+<p>
+  <strong>Climb day:</strong>
+  <%= @record.climb_day %>
+</p>
+
+<% if user_signed_in? and @record.user.id == current_user.id %>
+<%= link_to 'Edit', edit_record_path(@record) %> |
+<% end %>
+<%= link_to 'Back', url_for(:back) %>

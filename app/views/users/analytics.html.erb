@@ -1,0 +1,109 @@
+<div class="row">
+<div class="col-lg-12">
+<div class="page-header">
+<h1><%= User.where(id: @user.id).first.username %> Analytics</h1>
+</div>
+<p><%= link_to "Record lists", '/user/' + @user.username %></p>
+<h3>成果</h3>
+<div class="row">
+  <div class="col-sm-4">
+    <p>登攀回数(月別)</p>
+    <%= column_chart Record.group_by_month("climb_day", format: "%Y").where(user_id: @user.id).count, library: {backgroundColor: "#060606"} %>
+  </div>
+  <div class="col-sm-4">
+    <p>登攀回数(年別)</p>
+    <%= pie_chart Record.group_by_year("climb_day", format: "%Y").where(user_id: @user.id).count, library: {backgroundColor: "#060606"} %>
+  </div>
+  <div class="col-sm-4">
+    <p>場所</p>
+    <%= column_chart Record.joins(:route).where(user_id: @user.id).group("routes.place").count, library: {backgroundColor: "#060606"} %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <p>回数</p>
+    <% d = Record.where(user_id: @user.id).group(:seika).count %>
+    <% data = {} %>
+    <% d.keys.each do |k|
+         k.split("").each do |j|
+           if data.has_key?(j) then
+             data[j] = data[j] + 1
+           else
+             data[j] = 1
+           end
+         end
+       end
+       grade_data = [{"×" => "×"},{"TO" => "△"},{"R.P." => "〇"},{"O.S." => "●"}]
+       d1 = {}
+       grade_data.each do |g|
+           data.each do |k,v|
+               if g.values[0] == k then
+                   d1.store(g.keys[0], v)
+               end
+           end
+       end
+       data = d1
+    %>
+    <%= pie_chart data, library: {backgroundColor: "#060606"} %>
+  </div>
+  <div class="col-sm-4">
+    <p>ジャンル</p>
+    <%= pie_chart Record.joins(:route).where(user_id: @user.id).group("routes.genre").count, library: {backgroundColor: "#060606"} %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <p>グレード別(全て)</p>
+<%
+grade_data = [{"×" => "×"},{"TO" => "△"},{"R.P." => "〇"},{"O.S." => "●"}]
+reco = Record.arel_table[:seika]
+data = []
+grade_data.each do |g|
+    d1 = Record.where(reco.matches("%#{g.values[0]}")).joins(:route).where(user_id:@user.id).group("routes.grade").count
+    d2 = {:name => g.keys[0], :data => d1}
+    data.push(d2)
+end
+%>
+    <%= column_chart data, stacked: true, library: {backgroundColor: "#060606"} %>
+  </div>
+  <div class="col-sm-6">
+    <p>グレード別(完登のみ)</p>
+<%
+grade_data = [{"R.P." => "〇"},{"O.S." => "●"}]
+reco = Record.arel_table[:seika]
+data = []
+grade_data.each do |g|
+    d1 = Record.where(reco.matches("%#{g.values[0]}")).joins(:route).where(user_id:@user.id).group("routes.grade").count
+    d2 = {:name => g.keys[0], :data => d1}
+    data.push(d2)
+end
+%>
+    <%= column_chart data, stacked: true, library: {backgroundColor: "#060606"} %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <p>グレード別(全て,月別)</p>
+    <%= column_chart Record.where(user_id: @user.id).joins(:route).group("routes.grade").group_by_month(:climb_day).count, stacked: true, library: {backgroundColor: "#060606"} %>
+  </div>
+  <div class="col-sm-12">
+    <p>グレード別(全て,週別)</p>
+    <%= column_chart Record.where(user_id: @user.id).joins(:route).group("routes.grade").group_by_week(:climb_day).count, stacked: true, library: {backgroundColor: "#060606"} %>
+  </div>
+</div>
+<div class="col-sm-6 panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">ピラミッド式トレーニング法</h3>
+  </div>
+  <div class="panel-body">
+限界グレードを上げるための方法の一つ。
+目標グレードが12aならその下のグレードを3本、その下なら6本という風に3の倍数でピラミッド形式で積み重ねる方法。
+<pre>
+                     12a
+                 11d,11d,11d
+           11c,11c,11c,11c,11c,11c
+     11b,11b,11b,11b,11b,11b,11b,11b,11b
+11a,11a,11a,11a,11a,11a,11a,11a,11a,11a,11a,11a
+</pre>
+  </div>
+</div>
